@@ -21,12 +21,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor // automatically generates constructor for UserDetailService
 
 
-
 public class SecurityConfiguration {
 
 
     private final UserDetailsService userDetailsService;
-
 
 
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -34,13 +32,14 @@ public class SecurityConfiguration {
     }
 
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-         http.authorizeRequests()
-                 .requestMatchers("/admin").hasRole("ADMIN")
-                 .requestMatchers("/user").hasAnyRole("ADMIN","USER")
-                 .requestMatchers("/").permitAll()
-                 .and()
-                 .formLogin(withDefaults());
-         return http.build();
+        http.authorizeRequests(authorizeRequests ->
+                authorizeRequests
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/user").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/").permitAll()
+                )
+                .formLogin(withDefaults());
+        return http.build();
 
     }
 

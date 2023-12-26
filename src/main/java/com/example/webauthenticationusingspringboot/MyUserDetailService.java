@@ -13,5 +13,6 @@ public class MyUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return new MyUserDetails(username);
     }
+    // this will load username from sql?
 }
 
